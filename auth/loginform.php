@@ -3,8 +3,8 @@
 	<head>
 		<title>Loginform</title>
 		<meta charset="UTF-8">	
-		<link rel="stylesheet" href="../style.css">
-		<link rel="stylesheet" href="../mobile.css" media="(max-width:200px)">
+		<link rel="stylesheet" href="../example/style.css">
+		<link rel="stylesheet" href="../example/mobile.css" media="(max-width:200px)">
 	</head>
 	<body>
 		<header>
