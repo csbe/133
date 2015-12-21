@@ -1,29 +1,50 @@
 <?php
 include_once 'model/Rolle.php';
 
-class RolleController{
+class RolleController extends IndexController{
 
-	private $rollen = array();
+	protected $rollen = array();
+	protected $path = 'data/roles';
 
 	public function __construct(){
-		echo "Rolle Controller Aufgerufen!";
-		$this->rollen[] = new Rolle(1,'Admin');
-		$this->rollen[] = new Rolle(2, 'Kunde');	
+		parent::__construct();
+		$this->loadInArray($this->path, $this->rollen);
+	}
+	
+	public function loeschen(){
+			if(isset($_GET['id'])) {
+				unlink($this->path. '/' . $_GET['id'] . '.inc');
+				$this->rollen = array();
+				$this->loadInArray($this->path, $this->rollen);
+			}
+			$this->liste();
 	}
 	
 	public function liste(){
-		echo "Rolle Liste Aufgerufen!";
-		include 'view/rollenliste.php';	
+		$this->addContent('view/rollenliste.php');	
 	}
 	
 	public function erfassen(){
-		echo "Rolle Liste Aufgerufen!";
-		include 'view/rolleerfassen.php';	
+		$this->role = new Rolle(0,'');
+		if(isset($_GET['id'])) {
+			$this->role = $this->load($this->path.'/'.$_GET['id'].'.inc');		
+		}
+		$this->addContent('view/rolleerfassen.php');
 	}
 	
 	public function speichern(){
-		echo "Rolle wurde gespeichert";
-		include 'view/rollenliste.php';	
+		if(isset($_POST['name'])) {
+			if(isset($_POST['id']) && $_POST['id'] > 0) {			
+				$id = $_POST['id'];
+			}else{
+				$id = count($this->rollen)+1;			
+			}
+			$rolle = new Rolle($id, $_POST['name']);
+			$this->save($rolle, $this->path.'/'.$id.'.inc');
+			$this->rollen = array();
+			$this->loadInArray($this->path, $this->rollen);
+		}
+		$this->liste();
 	}
 }
 

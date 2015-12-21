@@ -1,4 +1,7 @@
 <?php
+	include_once 'helper/Helper.php';
+	include_once 'controller/WarenkorbController.php';	
+	include_once 'controller/IndexController.php';	
 	if(isset($_GET['controller'])){
 		include_once 'controller/'.$_GET['controller'].'Controller.php';
 		$cname = $_GET['controller'].'Controller';
@@ -7,8 +10,9 @@
 			$controller->$_GET['action']();
 		}
 		//$controller->liste();
-	}else{
-		echo "Standartseite aufgerufen";	
+	}else{	
+		$controller = new IndexController();
+		$controller->index();
 	}
 
 	
